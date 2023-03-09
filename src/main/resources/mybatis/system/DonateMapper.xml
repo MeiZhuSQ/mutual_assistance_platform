@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.donate.mapper.DonateMapper">
+    
+    <resultMap type="Donate" id="DonateResult">
+        <result property="postId"    column="post_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="materialName"    column="material_name"    />
+        <result property="materialSource"    column="material_source"    />
+        <result property="description"    column="description"    />
+        <result property="position"    column="position"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectDonateVo">
+        select post_id, user_id, material_name, material_source, description, position, create_by, create_time, update_by, update_time, remark from t_donate
+    </sql>
+
+    <select id="selectDonateList" parameterType="Donate" resultMap="DonateResult">
+        <include refid="selectDonateVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="materialName != null  and materialName != ''"> and material_name like concat('%', #{materialName}, '%')</if>
+            <if test="materialSource != null "> and material_source = #{materialSource}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="position != null "> and position = #{position}</if>
+        </where>
+    </select>
+    
+    <select id="selectDonateByPostId" parameterType="Long" resultMap="DonateResult">
+        <include refid="selectDonateVo"/>
+        where post_id = #{postId}
+    </select>
+        
+    <insert id="insertDonate" parameterType="Donate" useGeneratedKeys="true" keyProperty="postId">
+        insert into t_donate
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="materialName != null and materialName != ''">material_name,</if>
+            <if test="materialSource != null">material_source,</if>
+            <if test="description != null and description != ''">description,</if>
+            <if test="position != null">position,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="materialName != null and materialName != ''">#{materialName},</if>
+            <if test="materialSource != null">#{materialSource},</if>
+            <if test="description != null and description != ''">#{description},</if>
+            <if test="position != null">#{position},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDonate" parameterType="Donate">
+        update t_donate
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="materialName != null and materialName != ''">material_name = #{materialName},</if>
+            <if test="materialSource != null">material_source = #{materialSource},</if>
+            <if test="description != null and description != ''">description = #{description},</if>
+            <if test="position != null">position = #{position},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where post_id = #{postId}
+    </update>
+
+    <delete id="deleteDonateByPostId" parameterType="Long">
+        delete from t_donate where post_id = #{postId}
+    </delete>
+
+    <delete id="deleteDonateByPostIds" parameterType="String">
+        delete from t_donate where post_id in 
+        <foreach item="postId" collection="array" open="(" separator="," close=")">
+            #{postId}
+        </foreach>
+    </delete>
+
+</mapper>

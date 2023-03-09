@@ -1,0 +1,120 @@
+<div th:fragment="sidebar" class="pb-sidebar">
+    <div class="about panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">用户信息</h3>
+        </div>
+        <div class="panel-body" th:if="${not #strings.isEmpty(webAbout)}">
+            <ul>
+                <p th:text="${webAbout.abName}" class="abname"></p><div style="color: lightseagreen;font-weight: bold;">欢迎您，疫情无情人有情，公益物资互助平台助您身体健康！</div>
+                <!-- 屏蔽 iframe -->
+                <div style="width:280px;height:50px;position:absolute;filter:alpha(opacity=0);top:0;left:0;"></div>
+                <!--    2345天气插件官网            https://tianqi.2345.com/plugin/-->
+                <iframe class="m-mobile-show-weather" style="padding-top: 8px;" allowtransparency="true" frameborder="0"
+                        width="155" height="40" scrolling="no"
+                        src="//tianqi.2345.com/plugin/widget/index.htm?s=3&z=2&t=0&v=0&d=3&bd=0&k=&f=&ltf=009944&htf=cc0000&q=1&e=1&a=1&c=54511&w=180&h=36&align=left"></iframe>
+            </ul>
+        </div>
+
+        <div class="panel-body" th:if="${#strings.isEmpty(webAbout)}">
+            登录互助平台，帮助你我他！<a style="height: auto;" href="/login">&nbsp;&nbsp;点击登录</a>
+        </div>
+
+
+    </div>
+
+
+    <div class="tag panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">互助类型</h3>
+        </div>
+        <div class="panel-body channel" style="overflow: hidden">
+            <ul>
+                <li>
+                    <a style="height: auto;" th:each="item:${channelList}"
+                       th:classappend="${pageUrl == 'blog/channel/'+item.id}?'active'"
+                       th:href="@{${'/blog/channel/'+item.id+'?currentPage=1'}}"
+                      th:if="1 eq ${item.type}"
+                       th:text="${item.name}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="tag panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">物资标签</h3>
+        </div>
+        <div class="panel-body panel-body-high" id="tagcloud" style="overflow: hidden">
+            <a class="btn btn-default btn-xs" th:each="item:${mtoTagList}" th:href="@{${'/blog/tag/'+item.id}}"
+               th:text="${item.name}"></a>
+        </div>
+    </div>
+    <div class="pb-sidebar-tabs">
+        <ul id="myTab" class="nav nav-tabs">
+            <li class="active"><a href="#latest" data-toggle="tab">最新文章</a></li>
+            <li><a href="#recommend" data-toggle="tab">站长推荐</a></li>
+            <li><a href="#hot" data-toggle="tab">点击排行</a></li>
+        </ul>
+        <div class="tab-content">
+
+            <!--            最新文章-->
+            <div class="tab-pane active" id="latest">
+                <ol class="article-list" th:if="${not #lists.isEmpty(newPostList)}">
+                    <li th:each="item,temp:${newPostList}" class="slide">
+                        <span th:class="${'li-icon li-icon-'+(temp.index+1)}" th:text="${temp.index+1}"></span>
+                        <a th:text="${item.title}" th:href="${'/blog/article/'+item.id}"></a>
+                    </li>
+                </ol>
+                <ol th:if="${#lists.isEmpty(newPostList)}">
+                    Sorry, 暂无最新文章
+                </ol>
+
+            </div>
+
+            <!--            获取推荐文章-->
+            <div class="tab-pane" id="recommend">
+                <ol class="article-list" th:if="${not #lists.isEmpty(recommendPostList)}">
+                    <li th:each="item,temp:${recommendPostList}" class="slide">
+                        <span th:class="${'li-icon li-icon-'+(temp.index+1)}" th:text="${temp.index+1}"></span>
+                        <a th:text="${item.title}" th:href="${'/blog/article/'+item.id}"></a>
+                    </li>
+                </ol>
+                <ol th:if="${#lists.isEmpty(recommendPostList)}">
+                    Sorry, 暂无推荐文章
+                </ol>
+            </div>
+
+            <!--            获取最热文章-->
+            <div class="tab-pane" id="hot">
+                <ol class="article-list" th:if="${not #lists.isEmpty(hotPostList)}">
+                    <li th:each="item,temp:${hotPostList}" class="slide">
+                        <span th:class="${'li-icon li-icon-'+(temp.index+1)}" th:text="${temp.index+1}"></span>
+                        <a th:text="${item.title}" th:href="${'/blog/article/'+item.id}"></a>
+                    </li>
+                </ol>
+                <ol th:if="${#lists.isEmpty(hotPostList)}">
+                    Sorry, 暂无最热文章
+                </ol>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="webinfo panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">友情链接</h3>
+        </div>
+        <div class="panel-body">
+            <ul>
+                <li>
+                    <a href="https://www.chinacharityfederation.org">中华慈善总会</a>
+                </li>
+                <li>
+                    <a href="http://www.hhax.org/">韩红爱心慈善基金会</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>

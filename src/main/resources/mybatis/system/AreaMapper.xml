@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.area.mapper.AreaMapper">
+    
+    <resultMap type="Area" id="AreaResult">
+        <result property="id"    column="id"    />
+        <result property="areaName"    column="area_name"    />
+        <result property="areaParentId"    column="area_parent_id"    />
+        <result property="areaShort"    column="area_short"    />
+        <result property="areaIndex"    column="area_index"    />
+        <result property="areaPinyin"    column="area_pinyin"    />
+    </resultMap>
+
+    <sql id="selectAreaVo">
+        select id, area_name, area_parent_id, area_short, area_index, area_pinyin from t_area
+    </sql>
+
+    <select id="selectAreaList" parameterType="Area" resultMap="AreaResult">
+        <include refid="selectAreaVo"/>
+        <where>  
+            <if test="areaName != null  and areaName != ''"> and area_name like concat('%', #{areaName}, '%')</if>
+            <if test="areaParentId != null "> and area_parent_id = #{areaParentId}</if>
+            <if test="areaShort != null  and areaShort != ''"> and area_short = #{areaShort}</if>
+            <if test="areaIndex != null  and areaIndex != ''"> and area_index = #{areaIndex}</if>
+            <if test="areaPinyin != null  and areaPinyin != ''"> and area_pinyin = #{areaPinyin}</if>
+        </where>
+    </select>
+    
+    <select id="selectAreaById" parameterType="Long" resultMap="AreaResult">
+        <include refid="selectAreaVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertArea" parameterType="Area" useGeneratedKeys="true" keyProperty="id">
+        insert into t_area
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="areaName != null and areaName != ''">area_name,</if>
+            <if test="areaParentId != null">area_parent_id,</if>
+            <if test="areaShort != null and areaShort != ''">area_short,</if>
+            <if test="areaIndex != null and areaIndex != ''">area_index,</if>
+            <if test="areaPinyin != null and areaPinyin != ''">area_pinyin,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="areaName != null and areaName != ''">#{areaName},</if>
+            <if test="areaParentId != null">#{areaParentId},</if>
+            <if test="areaShort != null and areaShort != ''">#{areaShort},</if>
+            <if test="areaIndex != null and areaIndex != ''">#{areaIndex},</if>
+            <if test="areaPinyin != null and areaPinyin != ''">#{areaPinyin},</if>
+         </trim>
+    </insert>
+
+    <update id="updateArea" parameterType="Area">
+        update t_area
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="areaName != null and areaName != ''">area_name = #{areaName},</if>
+            <if test="areaParentId != null">area_parent_id = #{areaParentId},</if>
+            <if test="areaShort != null and areaShort != ''">area_short = #{areaShort},</if>
+            <if test="areaIndex != null and areaIndex != ''">area_index = #{areaIndex},</if>
+            <if test="areaPinyin != null and areaPinyin != ''">area_pinyin = #{areaPinyin},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAreaById" parameterType="Long">
+        delete from t_area where id = #{id}
+    </delete>
+
+    <delete id="deleteAreaByIds" parameterType="String">
+        delete from t_area where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

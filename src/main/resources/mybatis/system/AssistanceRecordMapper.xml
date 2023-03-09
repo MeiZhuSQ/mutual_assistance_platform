@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.record.mapper.AssistanceRecordMapper">
+    
+    <resultMap type="AssistanceRecord" id="AssistanceRecordResult">
+        <result property="postId"    column="post_id"    />
+        <result property="helpUserId"    column="help_user_id"    />
+        <result property="donateUserId"    column="donate_user_id"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectAssistanceRecordVo">
+        select post_id, help_user_id, donate_user_id, status, create_by, create_time, update_by, update_time, remark from t_assistance_record
+    </sql>
+
+    <select id="selectAssistanceRecordList" parameterType="AssistanceRecord" resultMap="AssistanceRecordResult">
+        <include refid="selectAssistanceRecordVo"/>
+        <where>  
+            <if test="helpUserId != null "> and help_user_id = #{helpUserId}</if>
+            <if test="donateUserId != null "> and donate_user_id = #{donateUserId}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectAssistanceRecordByPostId" parameterType="Long" resultMap="AssistanceRecordResult">
+        <include refid="selectAssistanceRecordVo"/>
+        where post_id = #{postId}
+    </select>
+        
+    <insert id="insertAssistanceRecord" parameterType="AssistanceRecord" useGeneratedKeys="true" keyProperty="postId">
+        insert into t_assistance_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="helpUserId != null">help_user_id,</if>
+            <if test="donateUserId != null">donate_user_id,</if>
+            <if test="status != null and status != ''">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="helpUserId != null">#{helpUserId},</if>
+            <if test="donateUserId != null">#{donateUserId},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAssistanceRecord" parameterType="AssistanceRecord">
+        update t_assistance_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="helpUserId != null">help_user_id = #{helpUserId},</if>
+            <if test="donateUserId != null">donate_user_id = #{donateUserId},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where post_id = #{postId}
+    </update>
+
+    <delete id="deleteAssistanceRecordByPostId" parameterType="Long">
+        delete from t_assistance_record where post_id = #{postId}
+    </delete>
+
+    <delete id="deleteAssistanceRecordByPostIds" parameterType="String">
+        delete from t_assistance_record where post_id in 
+        <foreach item="postId" collection="array" open="(" separator="," close=")">
+            #{postId}
+        </foreach>
+    </delete>
+
+</mapper>
