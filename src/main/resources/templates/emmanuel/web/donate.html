@@ -68,14 +68,14 @@
                     <!-- 左侧-->
                     <div class="col-lg-8">
 
-                        <div class="form-group">求助标题：</div>
+                        <div class="form-group">捐赠标题：</div>
                         <div class="form-group">
                             <h3>
                                 <input type="text" class="form-control" id="title" name="title"
-                                       placeholder="请输入求助标题" required>
+                                       placeholder="请输入捐赠标题" required>
                             </h3>
                         </div>
-                        <div class="form-group">求助内容：</div>
+                        <div class="form-group">捐赠内容：</div>
                         <!--markdown编辑器-->
                         <div class="form-group">
                             <div id=md-content>
@@ -92,13 +92,13 @@
                             <select class="form-control  noselect2 selectpicker" data-placeholder="请选择类型" id="channelId"
                                     name="channelId"
                                     required>
-                                <option th:text="我要求助" th:selected="true" th:disabled="true"></option>
+                                <option th:text="我要捐赠" th:selected="true" th:disabled="true"></option>
                             </select>
                         </div>
 
                         <div class="form-group col-xs-12">
                             <label class="font-noraml">药物标签</label>
-                            <select id="tag" class="form-control noselect2 selectpicker" data-none-selected-text="请选择求助标签"
+                            <select id="tag" class="form-control noselect2 selectpicker" data-none-selected-text="请选择捐赠标签"
                                     multiple>
                                 <option th:each="tag:${tagList}"
                                         th:value="${tag.id}"
@@ -115,18 +115,18 @@
                             </div>
                         </div>
                         <div class="form-group col-xs-12">
-                            <label class="control-label">求助备注：</label>
+                            <label class="control-label">捐赠备注：</label>
                             <div class="ml-3">
                              <textarea type="text" name="summary" maxlength="500" class="form-control" rows="5"
-                              placeholder="请填写求助备注"></textarea>
+                              placeholder="请填写捐赠备注"></textarea>
                             </div>
                         </div>
 
 
                         <div class="form-group col-xs-12">
-                            <label class="control-label">求助封面：</label>
+                            <label class="control-label">捐赠封面：</label>
                             <div class="ml-3">
-                                <input name="thumbnail" id="thumbnail" class="form-control">
+                                <input name="thumbnail" id="thumbnail" class="form-control"  style="display: none;">
                                 <a id="url"><img style="width: 90px;height: 90px"></a>
                                 <input type="file" id="tpicf">
                             </div>

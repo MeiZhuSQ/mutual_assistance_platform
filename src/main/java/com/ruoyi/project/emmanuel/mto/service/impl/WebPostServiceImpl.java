@@ -258,11 +258,11 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
      */
     private void sliderList(ModelMap modelMap) {
         // 先查询缓存，如果存在，直接返回
-        Object sliderObj = CacheUtils.get(Constants.WEB_SLIDER);
+        /*Object sliderObj = CacheUtils.get(Constants.WEB_SLIDER);
         if (StringUtils.isNotNull(sliderObj)) {
             modelMap.put("sliderDataInfo", StringUtils.cast(sliderObj));
             return;
-        }
+        }*/
 
         // 获取博客(轮播图)
         WebMtoPost webMtoPost = new WebMtoPost();

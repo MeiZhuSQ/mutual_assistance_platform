@@ -28,7 +28,7 @@ public class RuoYiApplication {
         ConfigurableApplicationContext context = SpringApplication.run(RuoYiApplication.class, args);
         String serverPort = context.getEnvironment().getProperty("server.port");
 
-        System.out.println("应急药物公益互助平台管理系统 启动成功"+serverPort  + "\n"+
+        System.out.println("应急药物公益互助平台 启动成功"+serverPort  + "\n"+
                 "                 http://"+InetAddress.getLocalHost().getHostAddress()+":"+serverPort);
     }
 
