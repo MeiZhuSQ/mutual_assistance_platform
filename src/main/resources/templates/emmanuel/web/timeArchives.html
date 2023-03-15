@@ -52,7 +52,7 @@
         <div class="m-container-small m-mobile-show-conten">
             <div class="ui container">
                 <!-- 归档头部标题 -->
-                <span style="font-size:.8rem;font-weight:500;">共发表 <span th:text="${dataInfo.total}"></span> 篇文章，请继续保持输出</span>
+                <span style="font-size:.8rem;font-weight:500;">您有 <span th:text="${dataInfo.total}"></span> 个互助</span>
                 <br>
 
                 <!--      归档博客列表-->
@@ -67,6 +67,9 @@
                         </span>
                             <div class="ui orange basic label m-padded-mini"
                                  th:text="${#dates.format(blog.createTime,'MM月dd日')}">
+                            </div>
+                            <div class="ui orange basic label m-padded-mini"
+                                 th:text="${blog.customValue}">
                             </div>
                         </a>
 

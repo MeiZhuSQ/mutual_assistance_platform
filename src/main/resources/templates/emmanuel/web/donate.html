@@ -90,9 +90,8 @@
                         <div class="form-group col-xs-12">
                             <label class=" control-label is-required">互助类型：</label>
                             <select class="form-control  noselect2 selectpicker" data-placeholder="请选择类型" id="channelId"
-                                    name="channelId"
-                                    required>
-                                <option th:text="我要捐赠" th:selected="true" th:disabled="true"></option>
+                                    name="channelId">
+                                <option th:text="我要捐赠" th:value="19" th:selected="true"></option>
                             </select>
                         </div>
 
@@ -110,18 +109,10 @@
                             <label class="font-noraml">所在地：</label>
                             <label class="font-noraml" style="color: red;">注意：请按照省、市、县/区格式填写，如北京市海淀区，湖北省黄冈市黄梅县</label>
                             <div class="ml-3">
-                                <input type="text" class="form-control" id="title" name="title"
+                                <input type="text" class="form-control" id="summary" name="summary"
                                        placeholder="请输入所在地点" required>
                             </div>
                         </div>
-                        <div class="form-group col-xs-12">
-                            <label class="control-label">捐赠备注：</label>
-                            <div class="ml-3">
-                             <textarea type="text" name="summary" maxlength="500" class="form-control" rows="5"
-                              placeholder="请填写捐赠备注"></textarea>
-                            </div>
-                        </div>
-
 
                         <div class="form-group col-xs-12">
                             <label class="control-label">捐赠封面：</label>

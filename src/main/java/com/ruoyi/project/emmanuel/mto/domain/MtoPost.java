@@ -67,7 +67,7 @@ public class MtoPost implements Serializable {
     private Long status;
 
     /**
-     * 摘要
+     * 地点
      */
     private String summary;
 
@@ -130,6 +130,8 @@ public class MtoPost implements Serializable {
      */
     @TableField(exist = false)
     private String avatar;
+
+    private String customValue;
 
 
 }

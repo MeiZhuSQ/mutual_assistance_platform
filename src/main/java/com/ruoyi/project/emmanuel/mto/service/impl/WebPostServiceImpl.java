@@ -17,6 +17,8 @@ import com.ruoyi.project.emmanuel.memorial.service.IBoardNoteService;
 import com.ruoyi.project.emmanuel.mto.domain.*;
 import com.ruoyi.project.emmanuel.mto.mapper.*;
 import com.ruoyi.project.emmanuel.mto.service.IWebPostService;
+import com.ruoyi.project.system.record.domain.AssistanceRecord;
+import com.ruoyi.project.system.record.mapper.AssistanceRecordMapper;
 import com.ruoyi.project.system.user.domain.User;
 import com.ruoyi.project.system.user.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@ import org.springframework.ui.ModelMap;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -40,6 +43,9 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
 
     @Autowired
     private WebPostMapper postMapper;
+
+    @Autowired
+    private MtoPostMapper mtoPostMapper;
 
     @Autowired
     private MtoCategoryMapper categoryMapper;
@@ -64,6 +70,9 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
 
     @Autowired
     private UserMapper userMapper;
+
+    @Resource
+    private AssistanceRecordMapper assistanceRecordMapper;
 
     // @Resource
     // private ThreadPoolExecutor executor;
@@ -610,15 +619,34 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
      * @param currentSize
      */
     @Override
-    public Page<MtoPost> timeArchives(ModelMap modelMap, Long currentPage, Long currentSize) {
+    public List<MtoPost> timeArchives(ModelMap modelMap, Long currentPage, Long currentSize) {
         // 获取导航
         this.selectCategory(modelMap);
         // 获取侧边栏
         this.publicWeb(modelMap);
         // 获取文章
-        Page<MtoPost> postListPage = postMapper.timeArchives(new Page<>(currentPage, currentSize));
-
-        return postListPage;
+        // Page<MtoPost> postListPage = postMapper.timeArchives(new Page<>(currentPage, currentSize));
+        // 我的互助
+        AssistanceRecord assistanceRecord = new AssistanceRecord();
+        Long userId = ShiroUtils.getUserId();
+        assistanceRecord.setHelpUserId(userId);
+        assistanceRecord.setDonateUserId(userId);
+        List<AssistanceRecord> assistanceRecords = assistanceRecordMapper.selectMyAssistanceRecords(assistanceRecord);
+        List<MtoPost> mtoPosts = assistanceRecords.stream().map(v -> {
+            MtoPost mtoPost = new MtoPost();
+            if (v.getHelpPostId() != null) {
+                mtoPost = mtoPostMapper.selectMtoPostById(v.getHelpPostId());
+                mtoPost.setCustomValue("我捐赠过的");
+                mtoPost.setCreateTime(v.getCreateTime());
+            }
+            if (v.getDonatePostId() != null) {
+                mtoPost = mtoPostMapper.selectMtoPostById(v.getDonatePostId());
+                mtoPost.setCustomValue("我申领过的");
+                mtoPost.setCreateTime(v.getCreateTime());
+            }
+            return mtoPost;
+        }).collect(Collectors.toList());
+        return mtoPosts;
     }
 
     /**
@@ -739,6 +767,30 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
         // 关键字
         modelMap.put("keyword", keyword);
 
+    }
+
+    @Override
+    public AjaxResult wantApplyOrDonate(HttpServletRequest request, Long postId, Long authorId, Integer channelId) {
+        AssistanceRecord assistanceRecord = new AssistanceRecord();
+        // 申领
+        if (channelId == 1) {
+            assistanceRecord.setHelpUserId(ShiroUtils.getUserId());
+            assistanceRecord.setDonateUserId(authorId);
+
+            assistanceRecord.setDonatePostId(postId);
+        }
+        // 捐赠
+        if (channelId == 2) {
+            assistanceRecord.setDonateUserId(ShiroUtils.getUserId());
+            assistanceRecord.setHelpUserId(authorId);
+
+            assistanceRecord.setHelpPostId(postId);
+        }
+        assistanceRecord.setStatus("1");
+        assistanceRecord.setCreateBy(ShiroUtils.getLoginName());
+        assistanceRecord.setCreateTime(DateUtils.getNowDate());
+        assistanceRecordMapper.insertAssistanceRecord(assistanceRecord);
+        return AjaxResult.success();
     }
 
     /**

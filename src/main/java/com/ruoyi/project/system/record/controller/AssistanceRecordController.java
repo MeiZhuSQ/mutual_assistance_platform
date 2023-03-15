@@ -94,9 +94,9 @@ public class AssistanceRecordController extends BaseController
      */
     @RequiresPermissions("system:record:edit")
     @GetMapping("/edit/{postId}")
-    public String edit(@PathVariable("postId") Long postId, ModelMap mmap)
+    public String edit(@PathVariable("postId") Long id, ModelMap mmap)
     {
-        AssistanceRecord assistanceRecord = assistanceRecordService.selectAssistanceRecordByPostId(postId);
+        AssistanceRecord assistanceRecord = assistanceRecordService.selectAssistanceRecordByPostId(id);
         mmap.put("assistanceRecord", assistanceRecord);
         return prefix + "/edit";
     }

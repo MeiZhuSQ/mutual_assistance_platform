@@ -129,7 +129,7 @@ public interface IWebPostService extends IService<WebMtoPost> {
      * @param currentPage
      * @param currentSize
      */
-    Page<MtoPost> timeArchives(ModelMap modelMap, Long currentPage, Long currentSize);
+    List<MtoPost> timeArchives(ModelMap modelMap, Long currentPage, Long currentSize);
 
     /**
      * 根据分类查询
@@ -176,4 +176,7 @@ public interface IWebPostService extends IService<WebMtoPost> {
      * @param pageSize 多少条数据
      */
     void searchByKeyword(ModelMap modelMap, String keyword, Long pageNum, Long pageSize);
+
+    AjaxResult wantApplyOrDonate(HttpServletRequest request, Long postId, Long authorId, Integer channelId);
+
 }

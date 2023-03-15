@@ -16,7 +16,7 @@ public class AssistanceRecord extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** 主键ID */
-    private Long postId;
+    private Long Id;
 
     /** 求助人ID */
     @Excel(name = "求助人ID")
@@ -30,15 +30,20 @@ public class AssistanceRecord extends BaseEntity
     @Excel(name = "互助状态", readConverterExp = "0=未解决,1=已解决")
     private String status;
 
-    public void setPostId(Long postId)
-    {
-        this.postId = postId;
+    @Excel(name = "求助人信息ID")
+    private Long helpPostId;
+
+    @Excel(name = "捐赠人信息ID")
+    private Long donatePostId;
+
+    public Long getId() {
+        return Id;
     }
 
-    public Long getPostId()
-    {
-        return postId;
+    public void setId(Long id) {
+        Id = id;
     }
+
     public void setHelpUserId(Long helpUserId)
     {
         this.helpUserId = helpUserId;
@@ -67,18 +72,19 @@ public class AssistanceRecord extends BaseEntity
         return status;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("postId", getPostId())
-            .append("helpUserId", getHelpUserId())
-            .append("donateUserId", getDonateUserId())
-            .append("status", getStatus())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .append("remark", getRemark())
-            .toString();
+    public Long getHelpPostId() {
+        return helpPostId;
+    }
+
+    public void setHelpPostId(Long helpPostId) {
+        this.helpPostId = helpPostId;
+    }
+
+    public Long getDonatePostId() {
+        return donatePostId;
+    }
+
+    public void setDonatePostId(Long donatePostId) {
+        this.donatePostId = donatePostId;
     }
 }

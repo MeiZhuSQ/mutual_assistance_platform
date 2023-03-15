@@ -1,6 +1,7 @@
 package com.ruoyi.project.emmanuel.mto.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageInfo;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.ToolUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
@@ -160,6 +161,26 @@ public class WebPostController extends BaseController {
         return (postService.loveFavors(request, null, postId, favorsType));
     }
 
+    @PostMapping("wantApply")
+    @ResponseBody
+    @RepeatSubmit(interval = 10000, message = "您手速真快")
+    public AjaxResult wantApply(HttpServletRequest request,
+                                 Long postId,
+                                 Long authorId,
+                                 Integer channelId) {
+        return (postService.wantApplyOrDonate(request, postId, authorId, channelId));
+    }
+
+    @PostMapping("wantDonate")
+    @ResponseBody
+    @RepeatSubmit(interval = 10000, message = "您手速真快")
+    public AjaxResult wantDonate(HttpServletRequest request,
+                                 Long postId,
+                                 Long authorId,
+                                 Integer channelId) {
+        return (postService.wantApplyOrDonate(request, postId, authorId, channelId));
+    }
+
     /**
      * 时间-归档
      */
@@ -168,7 +189,7 @@ public class WebPostController extends BaseController {
                                @RequestParam(value = "pageNum", defaultValue = "1") Long pageNum,
                                @RequestParam(value = "pageSize", defaultValue = "10") Long pageSize) {
 
-        Page<MtoPost> mtoPostPage = postService.timeArchives(modelMap, pageNum, pageSize);
+        List<MtoPost> mtoPostPage = postService.timeArchives(modelMap, pageNum, pageSize);
         modelMap.put("dataInfo", getDataObjectTable(mtoPostPage));
         return prefix + "/timeArchives";
     }
@@ -179,19 +200,16 @@ public class WebPostController extends BaseController {
      * @param mtoPostPage
      * @return
      */
-    private TableDataInfo getDataObjectTable(Page<MtoPost> mtoPostPage) {
+    private TableDataInfo getDataObjectTable(List<MtoPost> mtoPostPage) {
         TableDataInfo rspData = new TableDataInfo();
         if (ToolUtils.isNotEmpty(rspData)) {
             rspData.setCode(0);
-            Map<String, List<MtoPost>> collect = mtoPostPage.getRecords()
-                    .stream().collect(
+            Map<String, List<MtoPost>> collect = mtoPostPage.stream().collect(
                             Collectors.groupingBy(
                                     post -> String.format("%tY", post.getCreateTime())
                             ));
             rspData.setData(collect);
-            rspData.setTotal(mtoPostPage.getTotal());
-            rspData.setTotalPage(mtoPostPage.getPages());
-            rspData.setCurrentPage(mtoPostPage.getCurrent());
+            rspData.setTotal(new PageInfo(mtoPostPage).getTotal());
         }
         return rspData;
     }

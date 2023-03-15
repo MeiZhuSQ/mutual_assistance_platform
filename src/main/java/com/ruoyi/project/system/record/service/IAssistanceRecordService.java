@@ -14,10 +14,10 @@ public interface IAssistanceRecordService
     /**
      * 查询互助记录
      * 
-     * @param postId 互助记录主键
+     * @param id 互助记录主键
      * @return 互助记录
      */
-    public AssistanceRecord selectAssistanceRecordByPostId(Long postId);
+    public AssistanceRecord selectAssistanceRecordByPostId(Long id);
 
     /**
      * 查询互助记录列表
@@ -46,16 +46,16 @@ public interface IAssistanceRecordService
     /**
      * 批量删除互助记录
      * 
-     * @param postIds 需要删除的互助记录主键集合
+     * @param ids 需要删除的互助记录主键集合
      * @return 结果
      */
-    public int deleteAssistanceRecordByPostIds(String postIds);
+    public int deleteAssistanceRecordByPostIds(String ids);
 
     /**
      * 删除互助记录信息
      * 
-     * @param postId 互助记录主键
+     * @param id 互助记录主键
      * @return 结果
      */
-    public int deleteAssistanceRecordByPostId(Long postId);
+    public int deleteAssistanceRecordByPostId(Long id);
 }
