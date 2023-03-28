@@ -7,12 +7,14 @@ import com.ruoyi.common.utils.file.FileUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.common.utils.text.Convert;
 import com.ruoyi.framework.config.RuoYiConfig;
+import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.project.emmanuel.mto.domain.*;
 import com.ruoyi.project.emmanuel.mto.mapper.*;
 import com.ruoyi.project.emmanuel.mto.service.IMtoCategoryService;
 import com.ruoyi.project.emmanuel.mto.service.IMtoChannelService;
 import com.ruoyi.project.emmanuel.mto.service.IMtoPostService;
 import com.ruoyi.project.system.user.domain.User;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -118,7 +120,15 @@ public class MtoPostServiceImpl implements IMtoPostService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int insertMtoPost(MtoPost mtoPost) {
+    public AjaxResult insertMtoPost(MtoPost mtoPost) {
+        // 判断是否有相同地区的捐赠信息
+        String summary = mtoPost.getSummary();
+        mtoPost.setSummary(summary.substring(summary.lastIndexOf("-") + 1));
+        List<MtoPost> mtoPostList = mtoPostMapper.selectMtoPostList(mtoPost);
+        if (CollectionUtils.isNotEmpty(mtoPostList)) {
+            AjaxResult.error("您所在的地区已经有人捐赠过该药物，是否去申领？");
+        }
+
         // 新增 mto_post
         mtoPost.setAuthorId(ShiroUtils.getUserId());
         mtoPost.setCreateTime(DateUtils.getNowDate());
@@ -145,7 +155,7 @@ public class MtoPostServiceImpl implements IMtoPostService {
         CacheUtils.remove(Constants.WEB_RECOMMEND_BLOG);
         // 删除静态模板
         this.deleteHtml();
-        return i;
+        return AjaxResult.success();
     }
 
     /**
@@ -368,9 +378,13 @@ public class MtoPostServiceImpl implements IMtoPostService {
                 Long id = mtoPostMapper.isTitleExits(markdownName);
                 mtoPostAttribute.setContent(content);
                 mtoPostAttribute.setId(id);
-                i = ToolUtils.isEmpty(id) ? this.insertMtoPost(mtoPost) : mtoPostAttributeMapper.updateMtoPostAttribute(mtoPostAttribute);
+                if (ToolUtils.isEmpty(id)) {
+                    this.insertMtoPost(mtoPost);
+                } else {
+                    mtoPostAttributeMapper.updateMtoPostAttribute(mtoPostAttribute);
+                }
             } else {
-                i = this.insertMtoPost(mtoPost);
+                this.insertMtoPost(mtoPost);
             }
 
         }
@@ -379,7 +393,7 @@ public class MtoPostServiceImpl implements IMtoPostService {
         CacheUtils.remove(Constants.WEB_HOT_BLOG);
         // 删除静态模板
         this.deleteHtml();
-        return i > 0 ? "导入成功" : "导入失败";
+        return "导入成功";
     }
 
     /**

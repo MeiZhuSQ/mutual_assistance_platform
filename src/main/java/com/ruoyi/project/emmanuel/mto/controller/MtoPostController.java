@@ -80,7 +80,7 @@ public class MtoPostController extends BaseController {
     @ResponseBody
     @RepeatSubmit(interval = 5000, message = "请勿重复提交")
     public AjaxResult addSave(MtoPost mtoPost) {
-        return toAjax(mtoPostService.insertMtoPost(mtoPost));
+        return mtoPostService.insertMtoPost(mtoPost);
     }
 
     /**

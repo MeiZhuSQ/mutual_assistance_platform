@@ -86,7 +86,7 @@
                 and p.status = #{status}
             </if>
             <if test="summary != null  and summary != ''">
-                and p.summary = #{summary}
+                and p.summary like concat ('%',#{summary},'%')
             </if>
             <if test="tags != null  and tags != ''">
                 and p.tags = #{tags}

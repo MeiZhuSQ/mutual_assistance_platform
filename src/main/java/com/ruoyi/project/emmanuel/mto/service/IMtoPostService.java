@@ -1,5 +1,6 @@
 package com.ruoyi.project.emmanuel.mto.service;
 
+import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.project.emmanuel.mto.domain.MtoLookIpFirst;
 import com.ruoyi.project.emmanuel.mto.domain.MtoPost;
 import com.ruoyi.project.emmanuel.mto.domain.MtoTag;
@@ -40,7 +41,7 @@ public interface IMtoPostService {
      * @param mtoPost 文章表题
      * @return 结果
      */
-    public int insertMtoPost(MtoPost mtoPost);
+    public AjaxResult insertMtoPost(MtoPost mtoPost);
 
     /**
      * 修改文章表题
