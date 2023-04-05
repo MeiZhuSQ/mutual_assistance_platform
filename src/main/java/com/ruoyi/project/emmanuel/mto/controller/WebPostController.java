@@ -44,9 +44,9 @@ public class WebPostController extends BaseController {
     private String indexUrl;
 
     /**
-     * 根据id获取博客详情
+     * 根据id获取互助详情
      *
-     * @param id       博客id
+     * @param id       互助id
      * @param modelMap
      * @return
      */
@@ -58,7 +58,7 @@ public class WebPostController extends BaseController {
     }
 
     /**
-     * 获取博客首页
+     * 获取互助首页
      *
      * @param modelMap
      * @param request
@@ -163,7 +163,7 @@ public class WebPostController extends BaseController {
 
     @PostMapping("wantApply")
     @ResponseBody
-    @RepeatSubmit(interval = 10000, message = "您手速真快")
+//    @RepeatSubmit(interval = 10000, message = "您手速真快")
     public AjaxResult wantApply(HttpServletRequest request,
                                  Long postId,
                                  Long authorId,
@@ -173,12 +173,20 @@ public class WebPostController extends BaseController {
 
     @PostMapping("wantDonate")
     @ResponseBody
-    @RepeatSubmit(interval = 10000, message = "您手速真快")
+//    @RepeatSubmit(interval = 10000, message = "您手速真快")
     public AjaxResult wantDonate(HttpServletRequest request,
                                  Long postId,
                                  Long authorId,
                                  Integer channelId) {
         return (postService.wantApplyOrDonate(request, postId, authorId, channelId));
+    }
+
+    @PostMapping("cancelApply")
+    @ResponseBody
+//    @RepeatSubmit(interval = 10000, message = "您手速真快")
+    public AjaxResult cancelApply(HttpServletRequest request,
+                                 Long postId) {
+        return (postService.cancelApply(request, postId));
     }
 
     /**
@@ -265,7 +273,7 @@ public class WebPostController extends BaseController {
     }
 
     /**
-     * 博客主页
+     * 互助主页
      *
      * @param modelMap
      * @return

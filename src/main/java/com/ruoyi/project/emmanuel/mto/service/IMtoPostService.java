@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 文章表题Service接口
  *
- * @author 一粒麦子
+ * @author  
  * @date 2021-11-13
  */
 public interface IMtoPostService {
@@ -35,6 +35,8 @@ public interface IMtoPostService {
      */
     public List<MtoPost> selectMtoPostList(MtoPost mtoPost);
 
+
+    public AjaxResult isHaveSameAreaInfo(MtoPost mtoPost);
     /**
      * 新增文章表题
      *
@@ -73,7 +75,7 @@ public interface IMtoPostService {
     public MtoPost selectPostById(Long id);
 
     /**
-     * 获取最新几条博客
+     * 获取最新几条互助
      *
      * @return
      */
@@ -87,7 +89,7 @@ public interface IMtoPostService {
     void getAddInfo(ModelMap modelMap);
 
     /**
-     * 修改博客获取博客信息
+     * 修改互助获取互助信息
      *
      * @param id
      * @param modelMap
@@ -104,7 +106,7 @@ public interface IMtoPostService {
     String importData(List<MultipartFile> markDownList, boolean updateSupport);
 
     /**
-     * 首次访问博客记录
+     * 首次访问互助记录
      *
      * @param mtoLookIpFirst
      * @return
@@ -112,7 +114,7 @@ public interface IMtoPostService {
     List<MtoLookIpFirst> selectLookIpFirstList(MtoLookIpFirst mtoLookIpFirst);
 
     /**
-     * 删除首次访问博客记录
+     * 删除首次访问互助记录
      *
      * @param ids
      * @return
@@ -127,7 +129,7 @@ public interface IMtoPostService {
     int cleasrStaticPage();
 
     /**
-     * markdown 导出博客之单文件
+     * markdown 导出互助之单文件
      *
      * @param postId   文章ID
      * @param request
@@ -136,7 +138,7 @@ public interface IMtoPostService {
     void exportMd(Long postId, HttpServletRequest request, HttpServletResponse response);
 
     /**
-     * markdown 导出博客之多文件
+     * markdown 导出互助之多文件
      *
      * @param postIds  文章id
      * @param request

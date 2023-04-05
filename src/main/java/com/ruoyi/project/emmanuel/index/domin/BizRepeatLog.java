@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * 需要校验重复性的业务记录日志对象 biz_repeat_log
  *
- * @author 一粒麦子
+ * @author  
  * @date 2021-12-12
  */
 @Data

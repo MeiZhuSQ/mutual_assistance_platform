@@ -13,6 +13,8 @@ import com.ruoyi.project.emmanuel.mto.mapper.*;
 import com.ruoyi.project.emmanuel.mto.service.IMtoCategoryService;
 import com.ruoyi.project.emmanuel.mto.service.IMtoChannelService;
 import com.ruoyi.project.emmanuel.mto.service.IMtoPostService;
+import com.ruoyi.project.system.record.domain.AssistanceRecord;
+import com.ruoyi.project.system.record.mapper.AssistanceRecordMapper;
 import com.ruoyi.project.system.user.domain.User;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -35,7 +38,7 @@ import java.util.zip.ZipOutputStream;
 /**
  * 文章表题Service业务层处理
  *
- * @author 一粒麦子
+ * @author  
  * @date 2021-11-13
  */
 @Service
@@ -61,6 +64,9 @@ public class MtoPostServiceImpl implements IMtoPostService {
 
     @Autowired
     private MtoLookIpFirstMapper lookIpFirstMapper;
+
+    @Resource
+    private AssistanceRecordMapper assistanceRecordMapper;
 
 
     /**
@@ -112,23 +118,30 @@ public class MtoPostServiceImpl implements IMtoPostService {
         return mtoPostList;
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public AjaxResult isHaveSameAreaInfo(MtoPost mtoPost) {
+        // 判断是否有相同地区的捐赠信息
+        String summary = mtoPost.getSummary();
+        MtoPost post = new MtoPost();
+        post.setSummary(summary.substring(summary.lastIndexOf("-") + 1));
+        List<MtoPost> mtoPostList = mtoPostMapper.selectMtoPostList(post);
+        if (CollectionUtils.isNotEmpty(mtoPostList)) {
+            // 您所在的地区已经有人捐赠过该药物，是否去申领
+            return AjaxResult.success("yes");
+        }
+        return AjaxResult.success("no");
+    }
+
     /**
-     * 新增博客
+     * 新增互助
      *
-     * @param mtoPost 博客
+     * @param mtoPost 互助
      * @return
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public AjaxResult insertMtoPost(MtoPost mtoPost) {
-        // 判断是否有相同地区的捐赠信息
-        String summary = mtoPost.getSummary();
-        mtoPost.setSummary(summary.substring(summary.lastIndexOf("-") + 1));
-        List<MtoPost> mtoPostList = mtoPostMapper.selectMtoPostList(mtoPost);
-        if (CollectionUtils.isNotEmpty(mtoPostList)) {
-            AjaxResult.error("您所在的地区已经有人捐赠过该药物，是否去申领？");
-        }
-
         // 新增 mto_post
         mtoPost.setAuthorId(ShiroUtils.getUserId());
         mtoPost.setCreateTime(DateUtils.getNowDate());
@@ -155,6 +168,25 @@ public class MtoPostServiceImpl implements IMtoPostService {
         CacheUtils.remove(Constants.WEB_RECOMMEND_BLOG);
         // 删除静态模板
         this.deleteHtml();
+        // 增加互助记录 记录我发布的互助
+        Long channelId = mtoPost.getChannelId();
+        AssistanceRecord assistanceRecord = new AssistanceRecord();
+        if (channelId == 18) {
+            assistanceRecord.setHelpUserId(ShiroUtils.getUserId());
+
+            assistanceRecord.setHelpPostId(postId);
+        }
+        // 捐赠
+        if (channelId == 19) {
+            assistanceRecord.setDonateUserId(ShiroUtils.getUserId());
+
+            assistanceRecord.setDonatePostId(postId);
+        }
+        // 互助状态（0未解决 1已解决)
+        assistanceRecord.setStatus("0");
+        assistanceRecord.setCreateBy(ShiroUtils.getLoginName());
+        assistanceRecord.setCreateTime(DateUtils.getNowDate());
+        assistanceRecordMapper.insertAssistanceRecord(assistanceRecord);
         return AjaxResult.success();
     }
 
@@ -162,7 +194,7 @@ public class MtoPostServiceImpl implements IMtoPostService {
      * 新增mto_post_tag
      *
      * @param tags   多个字符串标签名
-     * @param postId 博客id
+     * @param postId 互助id
      */
     private void insertBatchPostTag(String tags, Long postId) {
         if (ToolUtils.isNotEmpty(tags)) {
@@ -172,7 +204,7 @@ public class MtoPostServiceImpl implements IMtoPostService {
     }
 
     /**
-     * 修改博客
+     * 修改互助
      *
      * @param mtoPost 文章表题
      * @return 结果
@@ -180,7 +212,7 @@ public class MtoPostServiceImpl implements IMtoPostService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int updateMtoPost(MtoPost mtoPost) {
-        // 博客id
+        // 互助id
         Long postId = mtoPost.getId();
         mtoPost.setUpdateTime(DateUtils.getNowDate());
         String tagIdList = mtoPost.getTags();
@@ -229,13 +261,13 @@ public class MtoPostServiceImpl implements IMtoPostService {
     @Transactional(rollbackFor = Exception.class)
     public int deleteMtoPostByIds(String ids) {
         String[] idsArr = Convert.toStrArray(ids);
-        // 删除博客文章 mto_post_attribute
+        // 删除互助文章 mto_post_attribute
         mtoPostAttributeMapper.deleteMtoPostAttributeByIds(idsArr);
-        // 删除博客标签 mto_post_tag
+        // 删除互助标签 mto_post_tag
         QueryWrapper<MtoPostTag> wrapper = new QueryWrapper<>();
         wrapper.lambda().in(MtoPostTag::getPostId, idsArr);
         mtoPostTagMapper.delete(wrapper);
-        // 删除博客标题等信息 mto_post
+        // 删除互助标题等信息 mto_post
         int i = mtoPostMapper.deleteMtoPostByIds(idsArr);
         // 查询缓存
         CacheUtils.remove(Constants.WEB_NEW_BLOG);
@@ -280,7 +312,7 @@ public class MtoPostServiceImpl implements IMtoPostService {
     }
 
     /**
-     * 获取最新博客
+     * 获取最新互助
      *
      * @return
      */
@@ -397,7 +429,7 @@ public class MtoPostServiceImpl implements IMtoPostService {
     }
 
     /**
-     * 首次访问博客记录
+     * 首次访问互助记录
      *
      * @param mtoLookIpFirst
      * @return
@@ -440,9 +472,9 @@ public class MtoPostServiceImpl implements IMtoPostService {
     }
 
     /**
-     * markdown 导出博客之单文件
+     * markdown 导出互助之单文件
      *
-     * @param postId   博客id
+     * @param postId   互助id
      * @param request
      * @param response
      */
@@ -467,7 +499,7 @@ public class MtoPostServiceImpl implements IMtoPostService {
     }
 
     /**
-     * markdown 导出博客之多文件
+     * markdown 导出互助之多文件
      *
      * @param postIds  文章id
      * @param request

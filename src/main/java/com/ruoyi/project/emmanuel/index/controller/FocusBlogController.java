@@ -34,6 +34,13 @@ public class FocusBlogController {
     @Autowired
     private IMtoCategoryService mtoCategoryService;
 
+    /**
+     * 我要求助页面
+     * @param modelMap
+     * @param currentPage
+     * @param currentSize
+     * @return
+     */
     @GetMapping("/focus")
     public String focus(ModelMap modelMap,
                               @RequestParam(value = "currentPage", defaultValue = "1") Long currentPage,

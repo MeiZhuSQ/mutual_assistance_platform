@@ -8,7 +8,7 @@ import com.ruoyi.framework.web.domain.BaseEntity;
 /**
  * 求助对象 t_help
  *
- * @author 一粒麦子
+ * @author  
  * @date 2023-02-10
  */
 public class Help extends BaseEntity
@@ -26,8 +26,8 @@ public class Help extends BaseEntity
     @Excel(name = "求助人类型")
     private Integer userType;
 
-    /** 物资名称 */
-    @Excel(name = "物资名称")
+    /** 药物名称 */
+    @Excel(name = "药物名称")
     private String materialName;
 
     /** 描述 */

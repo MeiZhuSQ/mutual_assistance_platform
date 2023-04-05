@@ -8,7 +8,7 @@ import com.ruoyi.project.system.record.domain.AssistanceRecord;
 /**
  * 互助记录Mapper接口
  * 
- * @author 一粒麦子
+ * @author  
  * @date 2023-02-10
  */
 public interface AssistanceRecordMapper 

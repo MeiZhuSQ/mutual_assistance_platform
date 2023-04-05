@@ -36,7 +36,7 @@ public class MtoComment {
     private String ancestors;
 
     /**
-     * 博客id
+     * 互助id
      */
     private Long postId;
 

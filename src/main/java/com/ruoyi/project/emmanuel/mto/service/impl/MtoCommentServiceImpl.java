@@ -39,7 +39,7 @@ public class MtoCommentServiceImpl extends ServiceImpl<MtoCommentMapper, MtoComm
     }
 
     /**
-     * 留言板新增留言，博客新增评论
+     * 留言板新增留言，互助新增评论
      *
      * @param comment
      * @param request
@@ -90,7 +90,7 @@ public class MtoCommentServiceImpl extends ServiceImpl<MtoCommentMapper, MtoComm
     }
 
     /**
-     * 查看博客评论
+     * 查看互助评论
      *
      * @param comment
      * @return

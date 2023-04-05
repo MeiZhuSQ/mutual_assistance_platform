@@ -23,7 +23,7 @@ import java.util.TimeZone;
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class RuoYiApplication {
     public static void main(String[] args) throws UnknownHostException {
-        // System.setProperty("spring.devtools.restart.enabled", "false");
+         System.setProperty("spring.devtools.restart.enabled", "true");
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Shanghai"));
         ConfigurableApplicationContext context = SpringApplication.run(RuoYiApplication.class, args);
         String serverPort = context.getEnvironment().getProperty("server.port");

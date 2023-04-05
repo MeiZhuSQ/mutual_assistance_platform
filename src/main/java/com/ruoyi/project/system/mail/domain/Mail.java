@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 /**
  * 【请填写功能名称】对象 sys_mail
  *
- * @author 一粒麦子
+ * @author  
  * @date 2022-07-22
  */
 @Data

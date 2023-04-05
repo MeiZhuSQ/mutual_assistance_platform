@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 【请填写功能名称】Mapper接口
  *
- * @author 一粒麦子
+ * @author  
  * @date 2022-01-17
  */
 public interface MtoPostTagMapper extends BaseMapper<MtoPostTag> {

@@ -8,7 +8,7 @@ import org.springframework.ui.ModelMap;
 /**
  * 栏目管理Service接口
  *
- * @author 一粒麦子
+ * @author  
  * @date 2021-11-13
  */
 public interface IMtoChannelService {

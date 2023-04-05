@@ -8,7 +8,7 @@ import com.ruoyi.framework.web.domain.BaseEntity;
 /**
  * 互助记录对象 t_assistance_record
  *
- * @author 一粒麦子
+ * @author  
  * @date 2023-02-10
  */
 public class AssistanceRecord extends BaseEntity

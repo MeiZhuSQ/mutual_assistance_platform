@@ -35,7 +35,7 @@ public class MtoCategoryServiceImpl extends ServiceImpl<MtoCategoryMapper, MtoCa
     }
 
     /**
-     * 博客发布页面（导航选择）
+     * 互助发布页面（导航选择）
      * @param bizCategory
      * @return
      */

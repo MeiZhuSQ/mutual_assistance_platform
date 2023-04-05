@@ -7,7 +7,7 @@ import com.ruoyi.framework.web.domain.BaseEntity;
 /**
  * 栏目管理对象 mto_channel
  *
- * @author 一粒麦子
+ * @author  
  * @date 2021-11-13
  */
 @Data

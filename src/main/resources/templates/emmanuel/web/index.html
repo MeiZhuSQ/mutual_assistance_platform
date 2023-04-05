@@ -49,10 +49,10 @@
         <!--				轮播图end -->
         <!--没有内容时提示-->
         <div class="no-article-content" th:if="${#lists.isEmpty(dataInfo.rows)}">
-            Sorry, 暂未发现任何文章~
+            Sorry, 暂未发现任何互助~
         </div>
 
-        <!--        博客内容开始-->
+        <!--        互助内容开始-->
         <div class="blogs" th:each="item,temp : ${dataInfo.rows}"
              th:if="${not #lists.isEmpty(dataInfo) && not #lists.isEmpty(dataInfo.rows)}">
             <!--            推荐状态-->
@@ -82,7 +82,7 @@
                 <a class="read-more" target="_blank" th:href="@{${'/blog/article/'+item.id}}">查看详情</a>
             </div>
         </div>
-        <!--        博客内容结束-->
+        <!--        互助内容结束-->
 
         <!--        分页-->
         <div th:if="${dataInfo!=null && dataInfo.totalPage gt 1}" id="pagebar">

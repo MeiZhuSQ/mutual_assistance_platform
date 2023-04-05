@@ -45,17 +45,17 @@
 
         <!--没有内容时提示-->
         <div class="no-article-content" th:if="${#lists.isEmpty(dataInfo.data)}">
-            Sorry, 暂未发现任何文章~
+            Sorry, 暂未发现任何互助~
         </div>
 
-        <!--        博客内容开始-->
+        <!--        互助内容开始-->
         <div class="m-container-small m-mobile-show-conten">
             <div class="ui container">
                 <!-- 归档头部标题 -->
                 <span style="font-size:.8rem;font-weight:500;">您有 <span th:text="${dataInfo.total}"></span> 个互助</span>
                 <br>
 
-                <!--      归档博客列表-->
+                <!--      归档互助列表-->
                 <div th:each="item : ${dataInfo.data}" class="m-mobile-show-right">
                     <h2 class="ui center aligned header" th:text="${item.key}"></h2>
                     <div class="ui fluid vertical menu">
@@ -79,7 +79,7 @@
 
             </div>
         </div>
-        <!--        博客内容结束-->
+        <!--        互助内容结束-->
 
         <!--        分页-->
         <div th:if="${dataInfo!=null && dataInfo.totalPage gt 1}" id="pagebar">

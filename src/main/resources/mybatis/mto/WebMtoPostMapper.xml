@@ -132,6 +132,9 @@
             <if test="mtoPost.title != '' and mtoPost.title != null">
                 and title like concat("%",concat(#{mtoPost.title,jdbcType=VARCHAR},"%"))
             </if>
+            <if test="mtoPost.summary != null  and mtoPost.summary != ''">
+                and summary like concat ('%',#{mtoPost.summary},'%')
+            </if>
         </where>
         order by create_time desc
     </select>

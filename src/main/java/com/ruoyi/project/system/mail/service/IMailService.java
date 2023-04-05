@@ -6,7 +6,7 @@ import com.ruoyi.project.system.mail.domain.Mail;
 /**
  * 邮件记录 Service接口
  * 
- * @author 一粒麦子
+ * @author  
  * @date 2022-07-22
  */
 public interface IMailService 

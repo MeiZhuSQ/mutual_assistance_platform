@@ -8,7 +8,7 @@ import com.ruoyi.framework.web.domain.BaseEntity;
 /**
  * 地区对象 t_area
  *
- * @author 一粒麦子
+ * @author  
  * @date 2023-02-11
  */
 public class Area extends BaseEntity

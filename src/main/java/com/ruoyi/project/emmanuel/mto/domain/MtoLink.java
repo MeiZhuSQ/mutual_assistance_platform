@@ -15,7 +15,7 @@ import java.util.Date;
 /**
  * 友情链接 mto_link
  *
- * @author 一粒麦子
+ * @author  
  * @date 2021-12-13
  */
 @Data

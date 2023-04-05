@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class FileUploadService extends FileUploader {
 
     public FileUploadService(){
-        // 上传文件博客路径
+        // 上传文件互助路径
         super(StringUtils.format("{}/{}",RuoYiConfig.getUploadPath(), DateUtils.datePath()),"file");
     }
 

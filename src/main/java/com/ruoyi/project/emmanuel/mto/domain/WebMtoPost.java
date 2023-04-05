@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * 文章表题对象 mto_post
  *
- * @author 一粒麦子
+ * @author  
  * @date 2021-11-13
  */
 @Data
@@ -44,7 +44,7 @@ public class WebMtoPost implements Serializable {
     private String channelName;
 
     /**
-     * 博客密码
+     * 互助密码
      */
     private String pwd;
 

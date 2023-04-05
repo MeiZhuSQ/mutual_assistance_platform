@@ -26,10 +26,10 @@ import java.util.List;
 /**
  * 文章标题题Controller
  *
- * @author 一粒麦子
+ * @author  
  * @date 2021-11-13
  */
-@Api("博客文章管理")
+@Api("互助文章管理")
 @Controller
 @RequestMapping("/mto/post")
 public class MtoPostController extends BaseController {
@@ -72,10 +72,21 @@ public class MtoPostController extends BaseController {
     }
 
     /**
-     * 新增保存博客
+     * 判断是否有相同地区的捐赠信息*
+     * @param mtoPost
+     * @return
      */
-    @RequiresPermissions("mto:post:add")
-    @Log(title = "新增博客", businessType = BusinessType.INSERT)
+    @PostMapping("/isHaveSameAreaInfo")
+    @ResponseBody
+    public AjaxResult isHaveSameAreaInfo(MtoPost mtoPost) {
+        return mtoPostService.isHaveSameAreaInfo(mtoPost);
+    }
+
+    /**
+     * 新增保存互助 (web新增)
+     */
+//    @RequiresPermissions("mto:post:add")
+    @Log(title = "新增互助", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
     @RepeatSubmit(interval = 5000, message = "请勿重复提交")
@@ -84,7 +95,7 @@ public class MtoPostController extends BaseController {
     }
 
     /**
-     * 修改根据id查询博客
+     * 修改根据id查询互助
      */
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Long id, ModelMap modelMap) {
@@ -93,10 +104,10 @@ public class MtoPostController extends BaseController {
     }
 
     /**
-     * 修改博客
+     * 修改互助
      */
     @RequiresPermissions("mto:post:edit")
-    @Log(title = "修改博客", businessType = BusinessType.UPDATE)
+    @Log(title = "修改互助", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
     @RepeatSubmit(interval = 5000, message = "请勿重复提交")
@@ -105,10 +116,10 @@ public class MtoPostController extends BaseController {
     }
 
     /**
-     * 删除博客
+     * 删除互助
      */
     @RequiresPermissions("mto:post:remove")
-    @Log(title = "删除博客", businessType = BusinessType.DELETE)
+    @Log(title = "删除互助", businessType = BusinessType.DELETE)
     @PostMapping("/remove")
     @ResponseBody
     public AjaxResult remove(String ids) {
@@ -116,7 +127,7 @@ public class MtoPostController extends BaseController {
     }
 
     /**
-     * 根据id查看博客文章
+     * 根据id查看互助文章
      */
     @RequiresPermissions("mto:post:selectDetail")
     @GetMapping("/selectById/{id}")
@@ -142,7 +153,7 @@ public class MtoPostController extends BaseController {
     }
 
     /**
-     * 导出博客之单文件
+     * 导出互助之单文件
      *
      * @param postId   文章ID
      * @param request
@@ -157,9 +168,9 @@ public class MtoPostController extends BaseController {
     }
 
     /**
-     * 博客导出之多文件
+     * 互助导出之多文件
      *
-     * @param postIds  博客多个id字符
+     * @param postIds  互助多个id字符
      * @param request
      * @param response
      */
@@ -184,7 +195,7 @@ public class MtoPostController extends BaseController {
     }
 
     /**
-     * 首次访问博客记录
+     * 首次访问互助记录
      */
     @RequiresPermissions("mto:blog:first")
     @GetMapping("/first")
@@ -193,7 +204,7 @@ public class MtoPostController extends BaseController {
     }
 
     /**
-     * 查询首次访问博客记录列表
+     * 查询首次访问互助记录列表
      */
     @RequiresPermissions("mto:blog:first")
     @PostMapping("/first/list")
@@ -205,14 +216,14 @@ public class MtoPostController extends BaseController {
     }
 
     /**
-     * 首访博客记录
+     * 首访互助记录
      *
      * @param ids
      * @return
      */
     @RequiresPermissions("mto:blog:first:remove")
     @ResponseBody
-    @Log(title = "首访博客记录", businessType = BusinessType.DELETE)
+    @Log(title = "首访互助记录", businessType = BusinessType.DELETE)
     @PostMapping("/first/remove")
     public AjaxResult firstRemove(String ids) {
         return toAjax(mtoPostService.firstRemove(ids));

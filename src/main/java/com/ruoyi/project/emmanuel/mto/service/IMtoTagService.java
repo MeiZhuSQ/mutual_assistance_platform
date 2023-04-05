@@ -9,7 +9,7 @@ import com.ruoyi.project.emmanuel.mto.domain.MtoTag;
 /**
  * mtoService接口
  *
- * @author 一粒麦子
+ * @author  
  * @date 2021-11-27
  */
 public interface IMtoTagService extends IService<MtoTag> {

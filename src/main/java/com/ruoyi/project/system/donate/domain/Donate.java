@@ -8,7 +8,7 @@ import com.ruoyi.framework.web.domain.BaseEntity;
 /**
  * 捐赠对象 t_donate
  *
- * @author 一粒麦子
+ * @author  
  * @date 2023-02-10
  */
 public class Donate extends BaseEntity
@@ -22,12 +22,12 @@ public class Donate extends BaseEntity
     @Excel(name = "捐赠人ID")
     private Long userId;
 
-    /** 物资名称 */
-    @Excel(name = "物资名称")
+    /** 药物名称 */
+    @Excel(name = "药物名称")
     private String materialName;
 
-    /** 物资来源 */
-    @Excel(name = "物资来源")
+    /** 药物来源 */
+    @Excel(name = "药物来源")
     private Integer materialSource;
 
     /** 描述 */

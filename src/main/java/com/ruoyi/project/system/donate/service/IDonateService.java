@@ -6,7 +6,7 @@ import com.ruoyi.project.system.donate.domain.Donate;
 /**
  * 捐赠Service接口
  * 
- * @author 一粒麦子
+ * @author  
  * @date 2023-02-10
  */
 public interface IDonateService 

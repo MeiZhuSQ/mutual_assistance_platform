@@ -6,7 +6,7 @@ import com.ruoyi.framework.aspectj.lang.annotation.Excel;
 import com.ruoyi.framework.web.domain.BaseEntity;
 
 /**
- * 博客内容对象 mto_post_attribute
+ * 互助内容对象 mto_post_attribute
  *
  * @author ruoyi
  * @date 2021-11-19

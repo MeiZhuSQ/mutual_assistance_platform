@@ -6,7 +6,7 @@ import sun.misc.BASE64Encoder;
 import java.util.Base64;
 
 /**
- * Created by 一粒麦子 on 2021-12-16.
+ * Created by   on 2021-12-16.
  */
 public class Base64Utils {
 
@@ -61,7 +61,7 @@ public class Base64Utils {
 
 
     // public static void main(String[] args) throws Exception {
-    //     String str = "一粒麦子";
+    //     String str = " ";
     //     base64(str);
     //     enAndDeCode(str);
     //

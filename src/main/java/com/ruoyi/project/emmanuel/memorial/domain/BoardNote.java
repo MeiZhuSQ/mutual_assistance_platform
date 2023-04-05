@@ -16,7 +16,7 @@ import java.util.Date;
 /**
  * 随手记对象 board_note
  *
- * @author 一粒麦子
+ * @author  
  * @date 2021-12-18
  */
 @Data

@@ -20,7 +20,7 @@ import javax.mail.MessagingException;
 /**
  * 邮件记录 Service业务层处理
  *
- * @author 一粒麦子
+ * @author  
  * @date 2022-07-22
  */
 @Service

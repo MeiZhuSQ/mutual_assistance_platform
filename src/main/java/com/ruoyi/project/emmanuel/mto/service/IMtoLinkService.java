@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 友情链接
  *
- * @author 一粒麦子
+ * @author  
  * @date 2021-12-13
  */
 public interface IMtoLinkService extends IService<MtoLink> {

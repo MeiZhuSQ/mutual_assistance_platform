@@ -28,6 +28,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="helpUserId != null "> and help_user_id = #{helpUserId}</if>
             <if test="donateUserId != null "> and donate_user_id = #{donateUserId}</if>
             <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="helpPostId != null">and help_post_id = #{helpPostId}</if>
+            <if test="donatePostId != null">and donate_post_id = #{donatePostId}</if>
         </where>
     </select>
 

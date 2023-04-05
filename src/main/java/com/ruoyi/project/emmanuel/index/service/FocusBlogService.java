@@ -52,7 +52,7 @@ public class FocusBlogService {
      * @param currentSize
      */
     private void timeArchiving(ModelMap modelMap, Long currentPage, Long currentSize) {
-        // 获取博客
+        // 获取互助
         CompletableFuture<Void> postFuture = CompletableFuture.runAsync(() -> {
             Page<WebMtoPost> page = new Page<>(currentPage, currentSize);
             TableDataInfo dataInfo = new TableDataInfo();

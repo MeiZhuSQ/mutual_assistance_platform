@@ -43,11 +43,11 @@
     <div th:replace="emmanuel/web/navbar :: navbar"></div>
 </header>
 
-<!--中间内容  m-container 可以调博客宽度-->
+<!--中间内容  m-container 可以调互助宽度-->
 <div class="pb-container pb-content">
     <div class="pb-main">
 
-        <!--                博客的头部-->
+        <!--                互助的头部-->
         <div class="ui top attached segment">
             <div class="ui meddle aligned two column grid">
                 <div class="column">
@@ -60,16 +60,16 @@
             </div>
         </div>
 
-        <!--                    博客的首页目录-->
+        <!--                    互助的首页目录-->
         <div class="ui attached segment">
 
             <!--                    开始-->
             <!--没有内容时提示-->
             <div class="no-article-content" th:if="${#lists.isEmpty(dataInfo.rows)}">
-                Sorry, 暂未发现任何文章~
+                Sorry, 暂未发现任何互助~
             </div>
 
-            <!-- 博客条目 m-padded-tb-large-blog 可以调博客的上面高距-->
+            <!-- 互助条目 m-padded-tb-large-blog 可以调互助的上面高距-->
             <div class="ui padded vertical segment m-padded-tb-large-blog m-mobile-clear m-pandded-lr-mini"
                  th:each="blog:${dataInfo.rows}">
                 <div class="ui middle aligned mobile reversed stackable grid">
@@ -86,7 +86,7 @@
                                         <img src="#" th:src="@{${blog.avatar}}" alt="" class="ui avatar image"
                                              th:if="${not #strings.isEmpty(blog.avatar)}">
                                         <div class="content">
-                                            <a href="#" class="header" th:text="${blog.username}">一粒麦子</a>
+                                            <a href="#" class="header" th:text="${blog.username}"> </a>
                                         </div>
                                     </div>
                                     <div class="item">
@@ -122,7 +122,7 @@
 
         </div>
 
-        <!--                博客的底部分页-->
+        <!--                互助的底部分页-->
         <div class="ui bottom attached segment" th:if="${(dataInfo.total>10)}">
             <div class="ui meddle aligned two column grid">
                 <div class="column" th:if="${(dataInfo.currentPage>1) && dataInfo.total>10}">

@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 网盘文件Mapper接口
  *
- * @author 一粒麦子
+ * @author  
  * @date 2022-03-04
  */
 public interface CloudFileMapper extends BaseMapper<CloudFile> {

@@ -21,9 +21,9 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.web.page.TableDataInfo;
 
 /**
- * 博客栏目Controller
+ * 互助栏目Controller
  *
- * @author 一粒麦子
+ * @author  
  * @date 2021-11-13
  */
 @Controller
@@ -42,7 +42,7 @@ public class MtoChannelController extends BaseController {
     }
 
     /**
-     * 查询博客栏目列表
+     * 查询互助栏目列表
      */
     @RequiresPermissions("mto:channel:list")
     @PostMapping("/list")
@@ -54,20 +54,20 @@ public class MtoChannelController extends BaseController {
     }
 
     /**
-     * 导出博客栏目列表
+     * 导出互助栏目列表
      */
     @RequiresPermissions("mto:channel:export")
-    @Log(title = "博客栏目", businessType = BusinessType.EXPORT)
+    @Log(title = "互助栏目", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(MtoChannel mtoChannel) {
         List<MtoChannel> list = mtoChannelService.selectMtoChannelList(mtoChannel);
         ExcelUtil<MtoChannel> util = new ExcelUtil<MtoChannel>(MtoChannel.class);
-        return util.exportExcel(list, "博客栏目数据");
+        return util.exportExcel(list, "互助栏目数据");
     }
 
     /**
-     * 新增博客栏目
+     * 新增互助栏目
      */
     @GetMapping("/add")
     public String add() {
@@ -75,10 +75,10 @@ public class MtoChannelController extends BaseController {
     }
 
     /**
-     * 新增保存博客栏目
+     * 新增保存互助栏目
      */
     @RequiresPermissions("mto:channel:add")
-    @Log(title = "博客栏目", businessType = BusinessType.INSERT)
+    @Log(title = "互助栏目", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(MtoChannel mtoChannel) {
@@ -86,7 +86,7 @@ public class MtoChannelController extends BaseController {
     }
 
     /**
-     * 修改博客栏目
+     * 修改互助栏目
      */
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Long id, ModelMap mmap) {
@@ -96,10 +96,10 @@ public class MtoChannelController extends BaseController {
     }
 
     /**
-     * 修改保存博客栏目
+     * 修改保存互助栏目
      */
     @RequiresPermissions("mto:channel:edit")
-    @Log(title = "博客栏目", businessType = BusinessType.UPDATE)
+    @Log(title = "互助栏目", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(MtoChannel mtoChannel) {
@@ -107,10 +107,10 @@ public class MtoChannelController extends BaseController {
     }
 
     /**
-     * 删除博客栏目
+     * 删除互助栏目
      */
     @RequiresPermissions("mto:channel:remove")
-    @Log(title = "博客栏目", businessType = BusinessType.DELETE)
+    @Log(title = "互助栏目", businessType = BusinessType.DELETE)
     @PostMapping("/remove")
     @ResponseBody
     public AjaxResult remove(String ids) {

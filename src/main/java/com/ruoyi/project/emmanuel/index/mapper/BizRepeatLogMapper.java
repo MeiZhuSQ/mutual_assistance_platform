@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Select;
 /**
  * 需要校验重复性的业务记录日志Mapper接口
  *
- * @author 一粒麦子
+ * @author  
  * @date 2021-12-12
  */
 @Mapper

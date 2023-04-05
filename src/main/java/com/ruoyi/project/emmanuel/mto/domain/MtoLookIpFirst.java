@@ -10,9 +10,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 首次访问博客记录对象 mto_look_ip_first
+ * 首次访问互助记录对象 mto_look_ip_first
  *
- * @author 一粒麦子
+ * @author  
  * @date 2022-05-28
  */
 @Data

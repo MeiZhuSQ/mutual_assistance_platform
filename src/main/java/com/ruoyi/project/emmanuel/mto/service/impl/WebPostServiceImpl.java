@@ -21,6 +21,7 @@ import com.ruoyi.project.system.record.domain.AssistanceRecord;
 import com.ruoyi.project.system.record.mapper.AssistanceRecordMapper;
 import com.ruoyi.project.system.user.domain.User;
 import com.ruoyi.project.system.user.mapper.UserMapper;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -150,7 +151,7 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
     }
 
     /**
-     * 博客查看
+     * 互助查看
      *
      * @param id
      * @return
@@ -202,7 +203,7 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
             return null;
         }
 
-        this.getIndexData(modelMap, currentPage, currentSize);
+        this.getIndexData(modelMap, currentPage, currentSize, request);
         return null;
     }
 
@@ -213,9 +214,19 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
      * @param currentPage 当前页
      * @param currentSize 当页数量
      */
-    private void getIndexData(ModelMap modelMap, Long currentPage, Long currentSize) {
-        // 获取文章列表
-        this.loadMainPage(modelMap, new WebMtoPost(), currentPage, currentSize);
+    private void getIndexData(ModelMap modelMap, Long currentPage, Long currentSize, HttpServletRequest request) {
+        String area = request.getParameter("area");
+        if (StringUtils.isNotBlank(area)) {
+            WebMtoPost post = new WebMtoPost();
+            // 显示同地区已经捐赠过的互助
+            post.setChannelId(19L);
+            post.setSummary(area.substring(area.lastIndexOf("-") + 1));
+            // 获取文章列表
+            this.loadMainPage(modelMap, post, currentPage, currentSize);
+        } else {
+            // 获取文章列表
+            this.loadMainPage(modelMap, new WebMtoPost(), currentPage, currentSize);
+        }
         // 获取导航
         this.selectCategory(modelMap);
         // 获取侧边栏
@@ -273,7 +284,7 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
             return;
         }*/
 
-        // 获取博客(轮播图)
+        // 获取互助(轮播图)
         WebMtoPost webMtoPost = new WebMtoPost();
         webMtoPost.setSlider(1);
         CompletableFuture<Void> sliderFuture = CompletableFuture.runAsync(() -> {
@@ -301,7 +312,7 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
      */
     private void loadMainPage(ModelMap modelMap, WebMtoPost webMtoPost, Long currentPage, Long currentSize) {
 
-        // 获取博客
+        // 获取互助
         CompletableFuture<Void> postFuture = CompletableFuture.runAsync(() -> {
             TableDataInfo postList = this.selectIndexPostList(webMtoPost, currentPage, currentSize);
             modelMap.put("dataInfo", postList);
@@ -516,13 +527,17 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
      * 根据文章获取id
      *
      * @param modelMap
-     * @param articleId postId,博客的id
+     * @param articleId postId,互助的id
      */
     @Override
     public String articleById(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap, Long articleId, String articlePwd) {
 
         // 文章详情
         WebMtoPost webMtoPost = this.selectMtoPostById(articleId);
+        // 此处判断文章是否是自己发布的 取消发布按钮
+        if (Objects.equals(webMtoPost.getAuthorId(), ShiroUtils.getUserId())) {
+            webMtoPost.setChannelId(0L);
+        }
         modelMap.put("mtoPost", webMtoPost);
 
         // 如果存在密码，输入密码
@@ -636,12 +651,32 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
             MtoPost mtoPost = new MtoPost();
             if (v.getHelpPostId() != null) {
                 mtoPost = mtoPostMapper.selectMtoPostById(v.getHelpPostId());
-                mtoPost.setCustomValue("我捐赠过的");
+                if (v.getStatus().equals("0")) {
+                    mtoPost.setCustomValue("我发布的求助");
+                }
+                if (v.getStatus().equals("1")) {
+                    if (v.getHelpUserId().equals(userId)) {
+                        mtoPost.setCustomValue("我求助的");
+                    }
+                    if (v.getDonateUserId().equals(userId)) {
+                        mtoPost.setCustomValue("我捐赠的");
+                    }
+                }
                 mtoPost.setCreateTime(v.getCreateTime());
             }
             if (v.getDonatePostId() != null) {
                 mtoPost = mtoPostMapper.selectMtoPostById(v.getDonatePostId());
-                mtoPost.setCustomValue("我申领过的");
+                if (v.getStatus().equals("0")) {
+                    mtoPost.setCustomValue("我发布的捐赠");
+                }
+                if (v.getStatus().equals("1")) {
+                    if (v.getHelpUserId().equals(userId)) {
+                        mtoPost.setCustomValue("我申领的");
+                    }
+                    if (v.getDonateUserId().equals(userId)) {
+                        mtoPost.setCustomValue("我捐赠的");
+                    }
+                }
                 mtoPost.setCreateTime(v.getCreateTime());
             }
             return mtoPost;
@@ -760,7 +795,7 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
         this.selectCategory(modelMap);
         // 获取侧边栏
         this.publicWeb(modelMap);
-        // 获取博客
+        // 获取互助
         WebMtoPost webMtoPost = new WebMtoPost();
         webMtoPost.setTitle(keyword);
         this.loadMainPage(modelMap, webMtoPost, pageNum, pageSize);
@@ -774,22 +809,68 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
         AssistanceRecord assistanceRecord = new AssistanceRecord();
         // 申领
         if (channelId == 1) {
-            assistanceRecord.setHelpUserId(ShiroUtils.getUserId());
-            assistanceRecord.setDonateUserId(authorId);
+            // 判断是否已经重复申领过
+            AssistanceRecord assistanceRecordQuery = new  AssistanceRecord();
+            assistanceRecordQuery.setHelpUserId(ShiroUtils.getUserId());
+            assistanceRecordQuery.setDonateUserId(authorId);
+            assistanceRecordQuery.setDonatePostId(postId);
+            List<AssistanceRecord> assistanceRecords = assistanceRecordMapper.selectAssistanceRecordList(assistanceRecordQuery);
+            if (CollectionUtils.isNotEmpty(assistanceRecords)) {
+                return AjaxResult.error("您已申领过该捐赠人的药物！");
 
+            }
+            assistanceRecord.setDonateUserId(authorId);
             assistanceRecord.setDonatePostId(postId);
+            AssistanceRecord record = assistanceRecordMapper.selectAssistanceRecordList(assistanceRecord).get(0);
+
+            record.setHelpUserId(ShiroUtils.getUserId());
+            record.setStatus("1");
+            record.setCreateBy(ShiroUtils.getLoginName());
+            record.setCreateTime(DateUtils.getNowDate());
+            assistanceRecordMapper.updateAssistanceRecord(record);
         }
         // 捐赠
         if (channelId == 2) {
-            assistanceRecord.setDonateUserId(ShiroUtils.getUserId());
-            assistanceRecord.setHelpUserId(authorId);
+            // 判断是否已经重复捐赠过
+            AssistanceRecord assistanceRecordQuery = new  AssistanceRecord();
+            assistanceRecordQuery.setDonateUserId(ShiroUtils.getUserId());
+            assistanceRecordQuery.setHelpUserId(authorId);
+            assistanceRecordQuery.setHelpPostId(postId);
+            List<AssistanceRecord> assistanceRecords = assistanceRecordMapper.selectAssistanceRecordList(assistanceRecordQuery);
+            if (CollectionUtils.isNotEmpty(assistanceRecords)) {
+                return AjaxResult.error("您已捐赠过该求助人！");
 
+            }
+
+            assistanceRecord.setHelpUserId(authorId);
             assistanceRecord.setHelpPostId(postId);
+            AssistanceRecord record = assistanceRecordMapper.selectAssistanceRecordList(assistanceRecord).get(0);
+
+            record.setDonateUserId(ShiroUtils.getUserId());
+            record.setStatus("1");
+            record.setCreateBy(ShiroUtils.getLoginName());
+            record.setCreateTime(DateUtils.getNowDate());
+            assistanceRecordMapper.updateAssistanceRecord(record);
         }
-        assistanceRecord.setStatus("1");
-        assistanceRecord.setCreateBy(ShiroUtils.getLoginName());
-        assistanceRecord.setCreateTime(DateUtils.getNowDate());
-        assistanceRecordMapper.insertAssistanceRecord(assistanceRecord);
+        return AjaxResult.success();
+    }
+
+    @Override
+    public AjaxResult cancelApply(HttpServletRequest request, Long postId) {
+        mtoPostMapper.deleteMtoPostById(postId);
+        AssistanceRecord assistanceRecord = new AssistanceRecord();
+        assistanceRecord.setHelpPostId(postId);
+        List<AssistanceRecord> assistanceRecords = assistanceRecordMapper.selectAssistanceRecordList(assistanceRecord);
+        assistanceRecords.forEach(v -> {
+            assistanceRecordMapper.deleteAssistanceRecordByPostId(v.getId());
+        });
+
+        AssistanceRecord assistanceRecord2 = new AssistanceRecord();
+        assistanceRecord2.setDonatePostId(postId);
+        List<AssistanceRecord> assistanceRecords2 = assistanceRecordMapper.selectAssistanceRecordList(assistanceRecord2);
+        assistanceRecords2.forEach(v -> {
+            assistanceRecordMapper.deleteAssistanceRecordByPostId(v.getId());
+        });
         return AjaxResult.success();
     }
 
@@ -866,7 +947,7 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
     }
 
     /**
-     * 生成前台博客静态页面
+     * 生成前台互助静态页面
      *
      * @param request
      * @param response
@@ -877,7 +958,7 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
      */
     private void createBlogHtml(HttpServletRequest request, HttpServletResponse response, Long currentPage, Long currentSize, ModelMap modelMap, String htmlName) {
         // 获取首页数据
-        this.getIndexData(modelMap, currentPage, currentSize);
+        this.getIndexData(modelMap, currentPage, currentSize, request);
         // 创建静态页面
         createHtml(request, response, true, modelMap, "emmanuel/web/index", htmlName);
     }

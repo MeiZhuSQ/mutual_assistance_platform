@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Update;
 /**
  * 任务清单Mapper接口
  *
- * @author 一粒麦子
+ * @author  
  * @date 2021-11-27
  */
 public interface BoardAgileMapper extends BaseMapper<BoardAgile> {

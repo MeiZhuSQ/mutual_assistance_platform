@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="include :: header('查看博客')"/>
+    <th:block th:include="include :: header('查看互助')"/>
     <th:block th:include="include :: semantic-css"/>
     <link rel="stylesheet" th:href="@{/blog/editormd/css/style.css}"/>
     <link rel="stylesheet" th:href="@{/blog/editormd/css/editormd.preview.css}"/>
@@ -31,10 +31,10 @@
     <!--    内容-->
     <div class="ui  attached padded segment m-mobile-show">
 
-        <!--博客标题-->
+        <!--互助标题-->
         <h2 class="ui aligned center header" th:utext="${blog.title}"></h2>
 
-        <!--        博客信息-->
+        <!--        互助信息-->
         <!--    取消边框 style="border: none !important;" -->
         <div class="ui top attached segment" style="border: none !important;">
             <div class="ui horizontal link list">
@@ -60,7 +60,7 @@
             </div>
         </div>
 
-        <!--博客内容 -->
+        <!--互助内容 -->
         <!--        <div id="content" class="typo typo-selection js-toc-content  m-padded-rl m-padded-tb-large "-->
         <!--             th:utext="${blog.content}">-->
         <!--        </div>-->
@@ -78,7 +78,7 @@
 
         <div class="ui horizontal divider">end</div>
 
-        <!--博客信息 -->
+        <!--互助信息 -->
         <div class="ui bottom attached positive message">
             <div class="ui middle aligned grid">
                 <div class="eleven wide column">

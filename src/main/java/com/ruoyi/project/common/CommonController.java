@@ -172,7 +172,7 @@ public class CommonController
     {
         try
         {
-            // 上传文件博客路径
+            // 上传文件互助路径
             String filePath = RuoYiConfig.getBlogPath();
             // 上传并返回新文件名称
             String fileName = FileUploadUtils.upload(filePath, file);

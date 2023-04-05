@@ -38,15 +38,15 @@ public interface IWebPostService extends IService<WebMtoPost> {
     MtoGolden selectIndexGolden();
 
     /**
-     * 根据id获取博客详情
+     * 根据id获取互助详情
      *
-     * @param id 博客id
+     * @param id 互助id
      * @return
      */
     WebMtoPost selectMtoPostById(Long id);
 
     /**
-     * 前台博客文章列表
+     * 前台互助文章列表
      *
      * @param modelMap
      * @param request
@@ -179,4 +179,5 @@ public interface IWebPostService extends IService<WebMtoPost> {
 
     AjaxResult wantApplyOrDonate(HttpServletRequest request, Long postId, Long authorId, Integer channelId);
 
+    AjaxResult cancelApply(HttpServletRequest request, Long postId);
 }

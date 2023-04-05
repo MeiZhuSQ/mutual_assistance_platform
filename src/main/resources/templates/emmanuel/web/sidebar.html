@@ -5,7 +5,7 @@
         </div>
         <div class="panel-body" th:if="${not #strings.isEmpty(webAbout)}">
             <ul>
-                <p th:text="${webAbout.abName}" class="abname"></p><div style="color: lightseagreen;font-weight: bold;">欢迎您，疫情无情人有情，公益物资互助平台助您身体健康！</div>
+                <p th:text="${webAbout.abName}" class="abname"></p><div style="color: lightseagreen;font-weight: bold;">欢迎您，疫情无情人有情，公益药物互助平台助您身体健康！</div>
                 <!-- 屏蔽 iframe -->
                 <div style="width:280px;height:50px;position:absolute;filter:alpha(opacity=0);top:0;left:0;"></div>
                 <!--    2345天气插件官网            https://tianqi.2345.com/plugin/-->
@@ -42,7 +42,7 @@
 
     <div class="tag panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">物资标签</h3>
+            <h3 class="panel-title">药物标签</h3>
         </div>
         <div class="panel-body panel-body-high" id="tagcloud" style="overflow: hidden">
             <a class="btn btn-default btn-xs" th:each="item:${mtoTagList}" th:href="@{${'/blog/tag/'+item.id}}"
@@ -51,8 +51,8 @@
     </div>
     <div class="pb-sidebar-tabs">
         <ul id="myTab" class="nav nav-tabs">
-            <li class="active"><a href="#latest" data-toggle="tab">最新文章</a></li>
-            <li><a href="#recommend" data-toggle="tab">站长推荐</a></li>
+            <li class="active"><a href="#latest" data-toggle="tab">最新互助</a></li>
+            <li><a href="#recommend" data-toggle="tab">平台推荐</a></li>
             <li><a href="#hot" data-toggle="tab">点击排行</a></li>
         </ul>
         <div class="tab-content">

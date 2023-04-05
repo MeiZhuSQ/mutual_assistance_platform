@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="include :: header('新增博客标题题')"/>
+    <th:block th:include="include :: header('新增互助标题题')"/>
     <th:block th:include="include :: datetimepicker-css"/>
     <th:block th:include="include :: bootstrap-select-css"/>
     <th:block th:include="include :: markdown-css"/>
@@ -35,9 +35,9 @@
 
                 <!-- 右侧-->
                 <div class="col-lg-4 ">
-                    <!--       博客导航     -->
+                    <!--       互助导航     -->
                     <div class="form-group col-xs-12">
-                        <label class="font-noraml">博客导航：</label>
+                        <label class="font-noraml">互助导航：</label>
                         <select class="form-control " data-placeholder="请选择导航" id="categoryId" name="categoryId">
                             <option value="">请选择导航(非必选)</option>
                             <block th:each="category:${categoryList}">
@@ -59,9 +59,9 @@
                         </select>
                     </div>
 
-                    <!--        博客栏目    -->
+                    <!--        互助栏目    -->
                     <div class="form-group col-xs-12">
-                        <label class=" control-label is-required">博客栏目：</label>
+                        <label class=" control-label is-required">互助栏目：</label>
                         <select class="form-control  noselect2 selectpicker" data-placeholder="请选择栏目" id="channelId"
                                 name="channelId"
                                 required>
@@ -74,10 +74,10 @@
                         </select>
                     </div>
 
-                    <!--      博客标签      -->
+                    <!--      互助标签      -->
                     <div class="form-group col-xs-12">
                         <label class="font-noraml">多选</label>
-                        <select id="tag" class="form-control noselect2 selectpicker" data-none-selected-text="请选择博客标签"
+                        <select id="tag" class="form-control noselect2 selectpicker" data-none-selected-text="请选择互助标签"
                                 multiple>
                             <option th:each="tag:${tagList}"
                                     th:value="${tag.id}"
@@ -88,11 +88,11 @@
 
                     <!--       文章摘要     -->
                     <div class="form-group col-xs-12">
-                        <label class="control-label">博客摘要：</label>
+                        <label class="control-label">互助摘要：</label>
                         <div class="ml-3">
                     <textarea type="text" name="summary" maxlength="500" class="form-control" rows="5"
                               th:value="${mtoPost?.summary}"
-                              placeholder="博客摘要"></textarea>
+                              placeholder="互助摘要"></textarea>
                         </div>
                     </div>
 
@@ -137,17 +137,17 @@
                         </div>
                     </div>
 
-                    <!--       博客密码-->
+                    <!--       互助密码-->
                     <div class="form-group col-xs-12">
-                        <label class="control-label">博客密码：</label>
+                        <label class="control-label">互助密码：</label>
                         <div class="ml-3">
                             <input name="pwd" id="pwd" class="form-control">
                         </div>
                     </div>
 
-                    <!--       博客封面-->
+                    <!--       互助封面-->
                     <div class="form-group col-xs-12">
-                        <label class="control-label">博客封面：</label>
+                        <label class="control-label">互助封面：</label>
                         <div class="ml-3">
                             <input name="thumbnail" id="thumbnail" class="form-control">
                             <a id="url"><img style="width: 90px;height: 90px"></a>

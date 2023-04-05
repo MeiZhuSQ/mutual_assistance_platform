@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 文章表题Mapper接口
  *
- * @author 一粒麦子
+ * @author  
  * @date 2021-11-13
  */
 public interface MtoPostMapper {
@@ -81,7 +81,7 @@ public interface MtoPostMapper {
     Long isTitleExits(String markdownName);
 
     /**
-     * 首次访问博客记录
+     * 首次访问互助记录
      *
      * @param mtoLookIpFirst
      * @return

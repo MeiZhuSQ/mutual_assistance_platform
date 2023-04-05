@@ -6,7 +6,7 @@ import com.ruoyi.project.system.area.domain.Area;
 /**
  * 地区Mapper接口
  * 
- * @author 一粒麦子
+ * @author  
  * @date 2023-02-11
  */
 public interface AreaMapper 

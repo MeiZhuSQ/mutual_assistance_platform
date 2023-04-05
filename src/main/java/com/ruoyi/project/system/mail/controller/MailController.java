@@ -25,7 +25,7 @@ import com.ruoyi.framework.web.page.TableDataInfo;
 /**
  * 邮件记录 Controller
  *
- * @author 一粒麦子
+ * @author  
  * @date 2022-07-22
  */
 @Controller

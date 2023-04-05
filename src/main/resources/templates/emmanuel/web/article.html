@@ -5,7 +5,7 @@
     <th:block th:include="include :: typo-css"/>
     <th:block th:include="include :: prism-css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title th:text="${mtoPost.title} + ' - ' + 一粒麦子"></title>
+    <title th:text="${mtoPost.title}"></title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css?v=3.3.7}"/>
     <th:block th:include="include :: toastr-css"/>
     <link rel="stylesheet" th:href="@{/blog/mblog/css/icon.css}"/>
@@ -123,6 +123,7 @@
                 <span class="thumbs-button fa fa-thumbs-up"> 点赞 <span id="loveCount" th:text="${mtoPost.favors}"></span></span>
                 <span id="wantDonate" class="reward-button fa fa-money" th:if="${mtoPost.channelId == 18}"> 我想捐赠</span>
                 <span id="wantApply" class="reward-button fa fa-money" th:if="${mtoPost.channelId == 19}"> 我想申领</span>
+                <span id="cancelApply" class="reward-button fa fa-money" th:if="${mtoPost.channelId == 0}"> 取消发布</span>
             </div>
         </div>
 
@@ -271,6 +272,8 @@
                     }
                     if (data.code == 0) {
                         toastr.success("申领成功！请等待药物分配。")
+                    } else {
+                        toastr.warning(data.msg);
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -300,6 +303,39 @@
                     }
                     if (data.code == 0) {
                         toastr.success("捐赠成功！药物即将分配给求助人。")
+                    } else {
+                        toastr.warning(data.msg);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    if (XMLHttpRequest.status == 403) {
+                        layer.msg("您没有权限访问，请联系管理员！")
+                    } else if (XMLHttpRequest.status == 500) {
+                        layer.msg("服务器内部错误！")
+                    } else if (XMLHttpRequest.status == 404) {
+                        layer.msg("您访问的内容不存在！")
+                    } else {
+                        layer.msg("服务器未知错误！")
+                    }
+                }
+            });
+        });
+        // 取消发布
+        $("#cancelApply").click(function () {
+            $.ajax({
+                url: '/blog/cancelApply',
+                cache: false,
+                data: {"postId": postId, "authorId": authorId, "channelId": 3},
+                type: 'post',
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                success: function (data) {
+                    if (typeof d == "function") {
+                        d(data);
+                    }
+                    if (data.code == 0) {
+                        toastr.success("取消成功！发布的信息已经删除。")
+                    } else {
+                        toastr.warning(data.msg);
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -410,7 +446,7 @@
             // 阻止冒泡
             e.stopPropagation();
             // 复制的内容
-            var copyTxt = `${window.getSelection(0).toString()}\n————————————————\n原文链接：${window.location.href}\n本篇文章来源于一粒麦子( 源码：https://gitee.com/GiteeKey/ruoyi-blog)`;
+            var copyTxt = `${window.getSelection(0).toString()}\n————————————————\n原文链接：${window.location.href}\n本篇文章来源于 ( 源码：https://gitee.com/GiteeKey/ruoyi-blog)`;
             // 提醒复制成功
             toastr.clear();
             toastr.success("Copy succeeded", "复制成功");

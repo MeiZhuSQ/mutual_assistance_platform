@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 /**
  * 栏目管理Mapper接口
  *
- * @author 一粒麦子
+ * @author  
  * @date 2021-11-13
  */
 public interface MtoChannelMapper

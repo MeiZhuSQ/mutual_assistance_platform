@@ -33,7 +33,7 @@ public interface IMtoCommentService extends IService<MtoComment> {
     void selectCommentList(ModelMap modelMap, Integer pageNum, Integer pageSize);
 
     /**
-     * 查看博客评论
+     * 查看互助评论
      *
      * @param comment
      * @return

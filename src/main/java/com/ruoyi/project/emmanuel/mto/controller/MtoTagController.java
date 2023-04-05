@@ -23,7 +23,7 @@ import com.ruoyi.framework.web.page.TableDataInfo;
 /**
  * mtoController
  *
- * @author 一粒麦子
+ * @author  
  * @date 2021-11-27
  */
 @Controller
@@ -42,7 +42,7 @@ public class MtoTagController extends BaseController {
     }
 
     /**
-     * 查询博客标签列表
+     * 查询互助标签列表
      */
     @RequiresPermissions("mto:tag:list")
     @PostMapping("/list")
@@ -54,7 +54,7 @@ public class MtoTagController extends BaseController {
     }
 
     /**
-     * 新增博客标签
+     * 新增互助标签
      */
     @GetMapping("/add")
     public String add() {
@@ -62,10 +62,10 @@ public class MtoTagController extends BaseController {
     }
 
     /**
-     * 新增保存博客标签
+     * 新增保存互助标签
      */
     @RequiresPermissions("mto:tag:add")
-    @Log(title = "博客标签", businessType = BusinessType.INSERT)
+    @Log(title = "互助标签", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(MtoTag mtoTag) {
@@ -73,7 +73,7 @@ public class MtoTagController extends BaseController {
     }
 
     /**
-     * 修改博客标签
+     * 修改互助标签
      */
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Long id, ModelMap modelMap) {
@@ -83,10 +83,10 @@ public class MtoTagController extends BaseController {
     }
 
     /**
-     * 修改保存博客标签
+     * 修改保存互助标签
      */
     @RequiresPermissions("mto:tag:edit")
-    @Log(title = "博客标签", businessType = BusinessType.UPDATE)
+    @Log(title = "互助标签", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(MtoTag mtoTag) {
@@ -94,10 +94,10 @@ public class MtoTagController extends BaseController {
     }
 
     /**
-     * 删除博客标签
+     * 删除互助标签
      */
     @RequiresPermissions("mto:tag:remove")
-    @Log(title = "博客标签", businessType = BusinessType.DELETE)
+    @Log(title = "互助标签", businessType = BusinessType.DELETE)
     @PostMapping("/remove")
     @ResponseBody
     public AjaxResult remove(String ids) {

@@ -93,7 +93,7 @@ public class MessageBoardController extends BaseController {
     }
 
     /**
-     * 查询博客评论
+     * 查询互助评论
      *
      * @return
      */

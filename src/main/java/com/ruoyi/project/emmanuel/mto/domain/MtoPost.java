@@ -11,7 +11,7 @@ import com.ruoyi.framework.aspectj.lang.annotation.Excel;
 /**
  * 文章表题对象 mto_post
  *
- * @author 一粒麦子
+ * @author  
  * @date 2021-11-13
  */
 @Data
@@ -87,7 +87,7 @@ public class MtoPost implements Serializable {
     private String title;
 
     /**
-     * 博客密码
+     * 互助密码
      */
     private String pwd;
 

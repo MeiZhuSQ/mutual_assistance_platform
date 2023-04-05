@@ -15,7 +15,7 @@ import com.ruoyi.framework.web.domain.BaseEntity;
 /**
  * 任务清单对象 board_agile
  *
- * @author 一粒麦子
+ * @author  
  * @date 2021-11-27
  */
 @Data

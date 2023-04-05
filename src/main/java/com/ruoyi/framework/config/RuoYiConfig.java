@@ -134,7 +134,7 @@ public class RuoYiConfig
     }
 
     /**
-     * 获取博客上传路径
+     * 获取互助上传路径
      */
     public static String getBlogPath()
     {

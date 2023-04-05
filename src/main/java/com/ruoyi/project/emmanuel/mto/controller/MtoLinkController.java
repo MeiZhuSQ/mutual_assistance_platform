@@ -25,7 +25,7 @@ import com.ruoyi.framework.web.page.TableDataInfo;
 /**
  * 友情链接
  *
- * @author 一粒麦子
+ * @author  
  * @date 2021-12-13
  */
 @Controller
